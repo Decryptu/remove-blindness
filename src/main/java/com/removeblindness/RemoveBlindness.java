@@ -22,12 +22,12 @@ public class RemoveBlindness {
     }
 
     @SubscribeEvent
-    public void onEffectAdded(MobEffectEvent.Added event) {
-        if (event.getEntity() instanceof Player) {
+    public void onEffectApplicable(MobEffectEvent.Applicable event) {
+        if (event.getEntity() instanceof Player && event.getEffectInstance() != null) {
             if (event.getEffectInstance().getEffect() == MobEffects.BLINDNESS
                 && event.getEffectInstance().getDuration() == Integer.MAX_VALUE
                 && event.getEffectInstance().getAmplifier() == 255) {
-                event.setCanceled(true);
+                event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
                 LOGGER.debug("Prevented BasicLogin blindness effect on player {}", 
                     ((Player)event.getEntity()).getName().getString());
             }
